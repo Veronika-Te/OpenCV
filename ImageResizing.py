@@ -5,8 +5,8 @@ import os
 def read_image(path):
   if not path or not os.path.exists(path):
     return
-  image=cv.imread(path, 0)
-  cv.imshow('Grayscale image', image)
+  image=cv.imread(path, 1)
+  cv.imshow('Image', image)
   return image
 
 def check_sizes(image):
@@ -72,11 +72,11 @@ def main():
 
   down_width =300
   down_height=200
-  #downscale_image(image,down_width, down_height)
+  downscale_image(image,down_width, down_height)
 
   up_width=1920
   up_height=1000
-  #upscale_image(image,up_width,up_height)
+  upscale_image(image,up_width,up_height)
 
   resize_with_scalingfactor(image)
 
