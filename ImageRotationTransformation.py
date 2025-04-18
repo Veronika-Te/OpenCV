@@ -1,11 +1,13 @@
 import cv2 as cv
 import numpy as np
+from matplotlib import pyplot as plt
+
 import os
 
 def read_image(path):
   if not path or not os.path.exists(path):
     return
-  image=cv.imread(path, 1)
+  image=cv.imread(path, -1)
   cv.imshow('Image', image)
   return image
 
@@ -24,12 +26,23 @@ def rotate_image(image: np.ndarray, inp_angle:int):
   cv.imshow('Rotated image', rotated_image)
   cv.waitKey(0)
   cv.imwrite('rotated_image.jpg', rotated_image)
+
+def affine_transform(image: np.ndarray):
+  rows,cols,ch = image.shape
+  pts1 = np.float32([[50,50],[200,50],[50,200]])
+  pts2 = np.float32([[10,100],[200,50],[100,250]])
+  M = cv.getAffineTransform(pts1,pts2)
+  dst = cv.warpAffine(image,M,(cols,rows))
+  plt.subplot(121),plt.imshow(image),plt.title('Input')
+  plt.subplot(122),plt.imshow(dst),plt.title('Output')
+  plt.show()
   
 def main():
   path='media/geometric.jpg'
   image=read_image(path)
   angle=90
   rotate_image(image, angle)
+  affine_transform(image)
 
 
 if __name__=="__main__":
