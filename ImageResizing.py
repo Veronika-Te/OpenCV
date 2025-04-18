@@ -1,8 +1,9 @@
 import cv2 as cv
 import numpy as np
+import os 
 
 def read_image(path):
-  if not path:
+  if not path or not os.path.exists(path):
     return
   image=cv.imread(path, 0)
   cv.imshow('Grayscale image', image)

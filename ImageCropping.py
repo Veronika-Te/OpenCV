@@ -1,9 +1,10 @@
 import cv2 as cv
 import numpy as np
 from matplotlib import pyplot as plt
+import os
 
 def read_image(path):
-  if not path:
+  if not path or not os.path.exists(path):
     return
   image=cv.imread(path, 1)
   cv.imshow('Grayscale image', image)
@@ -25,7 +26,6 @@ def check_sizes(image: np.ndarray):
 def crop_image(image: np.ndarray,x1,y1,x2,y2):
   """Cropping an image"""
   cropped_image = image[135:280, 150:330]
-
   cv.imshow("cropped", cropped_image)
   #cv.imwrite("Cropped Image.jpg", cropped_image)
   cv.waitKey(0)
