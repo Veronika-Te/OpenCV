@@ -41,8 +41,6 @@ def gaussian_blur(image: np.ndarray):
   plt.subplot(121),plt.imshow(image),plt.title('Original')
   plt.subplot(122),plt.imshow(gaussian_blur),plt.title('Gaussian Blur')
   plt.show()
-  cv.waitKey(0)
-  cv.destroyAllWindows()
 
 
 def bilateral_filter(image: np.ndarray):
@@ -107,8 +105,7 @@ def erode_dilate_image(image: np.ndarray):
   plt.subplot(121),plt.imshow(img_erosion),plt.title('Erosion')
   plt.subplot(122),plt.imshow(img_dilation),plt.title('Dilation')
   plt.show()
-  cv.waitKey(0)
-  cv.destroyAllWindows()
+
 
 def main():
   path='media/photo.png'
