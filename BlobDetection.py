@@ -100,19 +100,27 @@ def draw_keypoints(keypoints:tuple, image: np.ndarray):
   cv.waitKey(0)
   cv.destroyAllWindows()
  
-def save_image(image:np.ndarray, img_name:str, folder_path='ouput/'):
+def save_image(image:np.ndarray, img_name:str, folder_path='output/'):
   """Save the image"""
-  if image is None:
+  if image is None or not isinstance(image, np.ndarray):
     return
   # Ensure the folder exists
   if not os.path.exists(folder_path):
     os.makedirs(folder_path)
-  cv.imwrite('output.jpg', image)
+  if not is_valid_image_format(img_name):
+    return
   #full path 
   save_path = os.path.join(folder_path, img_name)
   # Save the image 
   cv.imwrite(save_path, image)
   print(f'Image saved to {save_path}')
+
+def is_valid_image_format(img_name):
+  """Checks if image format is valid"""
+  # Get the file extension
+  _, ext = os.path.splitext(img_name)
+  valid_extensions = ['.jpg', '.jpeg', '.png', '.gif', '.bmp', '.tiff']
+  return ext.lower() in valid_extensions
 
 def main():
   path='media/blobs_dog.jpg' 
@@ -125,13 +133,12 @@ def main():
   keypoints=blob_detection_with_params(img)
   draw_keypoints(keypoints, img)
 
-  #Filtered blob detection 
-  keypoints=blob_detection_geometric_with_params(img2)
-  draw_keypoints(keypoints, img2)
+  # #Filtered blob detection 
+  # keypoints=blob_detection_geometric_with_params(img2)
+  # draw_keypoints(keypoints, img2)
 
   #Simple Blob detection
   # blob_detection(img2)
-
 
 if __name__=="__main__":
   main()
