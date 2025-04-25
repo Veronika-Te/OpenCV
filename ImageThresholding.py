@@ -42,7 +42,6 @@ def adaptive_threshold(image: np.ndarray):
   #The weighted sum of the neighborhood values.
   adaptive_thresh_g = cv.adaptiveThreshold(image, 255, cv.ADAPTIVE_THRESH_GAUSSIAN_C,
                                        cv.THRESH_BINARY, 11, 2)
-  
   plt.subplot(121),plt.imshow(adaptive_thresh_m),plt.title('Adaptive Thresholding (MEAN)')
   plt.subplot(122),plt.imshow(adaptive_thresh_g),plt.title('Adaptive Thresholding (GAUSSIAN)')
   plt.show()
@@ -63,7 +62,15 @@ def zero_thresholding(image: np.ndarray, threshold_value = 10):
   plt.subplot(121),plt.imshow(thresh_image_tozero),plt.title('Zero Thresholding')
   plt.subplot(122),plt.imshow(thresh_image_tozero_inv),plt.title('Zero Inverted Thresholding')
   plt.show()
- 
+
+def otsu_thresholding(image:np.ndarray):
+  """Otsu thresholding"""
+  if image is None or not isinstance(image, np.ndarray):
+    return
+  _, thresholded_image = cv.threshold(image, 0, 255, cv.THRESH_BINARY + cv.THRESH_OTSU)
+  cv.imshow('Thresholded Image', thresholded_image)
+  cv.waitKey(0)
+  cv.destroyAllWindows()
 
 def is_valid_threshold_value(threshold: int)->bool:
   """Checks if threshold is valid"""
@@ -74,15 +81,15 @@ def is_valid_threshold_value(threshold: int)->bool:
     return False
   return True
 
-
 def main():
   path='media/lake.jpg'
   image=read_grayscale_image(path)
   threshold=123
+  otsu_thresholding(image)
   # binary_threshold(image, threshold)
   # truncation_threshold(image, threshold)
   # adaptive_threshold(image)
-  zero_thresholding(image, threshold)
+  #zero_thresholding(image, threshold)
 
 if __name__=="__main__":
   main()

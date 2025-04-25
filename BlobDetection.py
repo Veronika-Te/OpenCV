@@ -13,12 +13,12 @@ def read_grayscale_image(path):
 
 
 def blob_detection_with_params(image:np.ndarray):
-  """Blob detection with parameters"""
+  """Blob detection with parameters
+  Setup Detector parameters.
+  """
   if image is None or not isinstance(image, np.ndarray):
     return
-  
   params = cv.SimpleBlobDetector_Params()
-
   params.filterByArea = True
   params.minArea = 100
   params.filterByCircularity = False
@@ -36,6 +36,42 @@ def blob_detection_with_params(image:np.ndarray):
     print(f"Detected {len(keypoints)} blobs")
 
   return keypoints
+
+def blob_detection_geometric_with_params(image: np.ndarray):
+  """
+  Filtering by area, circularity, convexity, inertia.
+  Setup Detector parameters.
+  """
+  params = cv.SimpleBlobDetector_Params()
+ 
+  # Change thresholds
+  params.minThreshold = 10
+  params.maxThreshold = 200
+
+  params.filterByArea = True
+  params.minArea = 1500
+ 
+  params.filterByCircularity = True
+  params.minCircularity = 0.1
+  
+  params.filterByConvexity = True
+  params.minConvexity = 0.87
+ 
+  params.filterByInertia = True
+  params.minInertiaRatio = 0.01
+
+  detector=cv.SimpleBlobDetector_create(params)
+ 
+  # Detect blobs
+  keypoints = detector.detect(image)
+
+  if len(keypoints) == 0:
+    print("Blobs not found")
+  else:
+    print(f"Detected {len(keypoints)} blobs")
+
+  return keypoints
+ 
 
 def blob_detection(img: np.ndarray):
   """Simple blob detection"""
@@ -81,17 +117,21 @@ def save_image(image:np.ndarray, img_name:str, folder_path='ouput/'):
 def main():
   path='media/blobs_dog.jpg' 
   img=read_grayscale_image(path)
+
+  path2='media/blob_test.jpg'
+  img2=read_grayscale_image(path2)
   
   #Blob detection with params
   keypoints=blob_detection_with_params(img)
   draw_keypoints(keypoints, img)
 
+  #Filtered blob detection 
+  keypoints=blob_detection_geometric_with_params(img2)
+  draw_keypoints(keypoints, img2)
+
   #Simple Blob detection
-  # path2='media/blob_test.jpg'
-  # img2=read_grayscale_image(path2)
   # blob_detection(img2)
 
- 
 
 if __name__=="__main__":
   main()
