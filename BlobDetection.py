@@ -3,7 +3,7 @@ import numpy as np
 import os
 
 def read_grayscale_image(path):
-  """Reads an image and transforms it into grayscale"""
+  """Read an image and transforms it into grayscale"""
   if not path or not os.path.exists(path):
     return
   image=cv.imread(path, cv.IMREAD_GRAYSCALE)
@@ -11,19 +11,9 @@ def read_grayscale_image(path):
   cv.waitKey(0)
   return image
 
-def blob_detection(img: np.ndarray):
-  if img is None:
-    return
-  detector=cv.SimpleBlobDetector_create()
-  keypoints=detector.detect(img)
-  img_with_keypoints=cv.drawKeypoints(img, keypoints, np.array([]), (0,0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
-  cv.imshow("Keypoints", img_with_keypoints)
-  img_name='simple_blob_detect.jpg'
-  save_image(img_with_keypoints, img_name)# name of image
-  cv.waitKey(0)
 
 def blob_detection_with_params(image:np.ndarray):
-  """Blobs detection with parameters"""
+  """Blob detection with parameters"""
   if image is None or not isinstance(image, np.ndarray):
     return
   
@@ -47,8 +37,20 @@ def blob_detection_with_params(image:np.ndarray):
 
   return keypoints
 
+def blob_detection(img: np.ndarray):
+  """Simple blob detection"""
+  if img is None:
+    return
+  detector=cv.SimpleBlobDetector_create()
+  keypoints=detector.detect(img)
+  img_with_keypoints=cv.drawKeypoints(img, keypoints, np.array([]), (0,0,255), cv.DRAW_MATCHES_FLAGS_DRAW_RICH_KEYPOINTS)
+  cv.imshow("Keypoints", img_with_keypoints)
+  img_name='simple_blob_detect.jpg'
+  save_image(img_with_keypoints, img_name)# name of image
+  cv.waitKey(0)
+
 def draw_keypoints(keypoints:tuple, image: np.ndarray):
-  """Draws keypoints on the provided image and displays it."""
+  """Draw keypoints on the provided image and displays it."""
   if image is None or keypoints is None:
     return
   if not isinstance(image, np.ndarray) or not isinstance(keypoints, tuple):
@@ -63,7 +65,7 @@ def draw_keypoints(keypoints:tuple, image: np.ndarray):
   cv.destroyAllWindows()
  
 def save_image(image:np.ndarray, img_name:str, folder_path='ouput/'):
-  """Saves the image"""
+  """Save the image"""
   if image is None:
     return
   # Ensure the folder exists
