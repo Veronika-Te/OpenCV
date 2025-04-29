@@ -130,12 +130,12 @@ def main():
   img2=read_grayscale_image(path2)
   
   #Blob detection with params
-  keypoints=blob_detection_with_params(img)
-  draw_keypoints(keypoints, img)
+  # keypoints=blob_detection_with_params(img)
+  # draw_keypoints(keypoints, img)
 
   # #Filtered blob detection 
-  # keypoints=blob_detection_geometric_with_params(img2)
-  # draw_keypoints(keypoints, img2)
+  keypoints=blob_detection_geometric_with_params(img2)
+  draw_keypoints(keypoints, img2)
 
   #Simple Blob detection
   # blob_detection(img2)
